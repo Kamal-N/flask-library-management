@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block style %}
+
+
+{% endblock %}
+
+{% block content %}
+    <div class="container col-3 mt-5 shadow py-5 px-4 mb-5 bg-body-tertiary rounded">
+    <h1 class="mb-4 text-center">Login Form</h1>
+    {% from 'bootstrap5/form.html' import render_form %}
+    {{ render_form(form) }}
+    <a class="btn btn-outline-dark col-12 mt-2" href="{{ url_for('home') }}">Back To Home</a>
+    </div>
+{% endblock %}

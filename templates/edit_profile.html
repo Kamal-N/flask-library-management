@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize Profile</title>
+    {{ bootstrap.load_css() }}
+    <style>
+        .avatar-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.2s, border 0.2s;
+        }
+        .avatar-img:hover {
+            transform: scale(1.1);
+            border: 2px solid #007bff;
+        }
+        .selected-avatar {
+            border: 2px solid #007bff;
+        }
+        .profile-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: contain;
+            margin-bottom: 20px;
+            border: 2px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container col-4 mt-5 shadow p-3 mb-5 bg-body-tertiary rounded">
+        <h1 class="mb-3 text-center">Customize Your Profile</h1>
+        <div class="text-center">
+            <img id="profile-circle" src="{{ url_for('static', filename='img/default.jpg') }}" class="profile-circle">
+        </div>
+        <form method="POST" action="{{ url_for('edit_profile') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div class="form-group text-center">
+                <label for="avatar"><strong>Select Your Avatar</strong></label>
+                <div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
+                    <img src="{{ url_for('static', filename='img/1.jpg') }}" class="avatar-img" onclick="selectAvatar('1.jpg')">
+                    <img src="{{ url_for('static', filename='img/2.jpg') }}" class="avatar-img" onclick="selectAvatar('2.jpg')">
+                    <img src="{{ url_for('static', filename='img/3.jpg') }}" class="avatar-img" onclick="selectAvatar('3.jpg')">
+                    <img src="{{ url_for('static', filename='img/4.jpg') }}" class="avatar-img" onclick="selectAvatar('4.jpg')">
+                </div>
+                <input type="hidden" id="selected-avatar" name="selected-avatar" value="default.jpg">
+            </div>
+            <div class="form-group mt-4">
+                <label for="bio"><strong>Tell Us a Little About Yourself</strong></label>
+                <textarea class="form-control" id="bio" name="bio" rows="3" placeholder="Write a short bio..."></textarea>
+            </div>
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function selectAvatar(avatarFilename) {
+            // Update the profile circle
+            const profileCircle = document.getElementById('profile-circle');
+            const newSrc = "{{ url_for('static', filename='img/') }}" + avatarFilename;
+            profileCircle.src = newSrc;
+
+            // Update the hidden input field with the selected avatar
+            document.getElementById('selected-avatar').value = avatarFilename;
+
+            // Remove the 'selected-avatar' class from all avatars
+            const avatars = document.querySelectorAll('.avatar-img');
+            avatars.forEach(avatar => {
+                avatar.classList.remove('selected-avatar');
+            });
+
+            // Add the 'selected-avatar' class to the clicked avatar
+            const selectedAvatar = document.querySelector(`.avatar-img[src*="${avatarFilename}"]`);
+            if (selectedAvatar) {
+                selectedAvatar.classList.add('selected-avatar');
+            }
+        }
+    </script>
+
+    {{ bootstrap.load_js() }}
+</body>
+</html>

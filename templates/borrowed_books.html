@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <div class="container text-center mt-5 col-12">
+    <h1 class="text-center m-4">Borrowed Books Dashboard</h1>
+
+    <table class="table table-hover  text-left">
+      <thead>
+        <tr class="table-secondary">
+<!--          <th scope="col">ID</th>-->
+          <th style="width: 10%;" scope="col">Book Cover</th>
+          <th scope="col">Book Title</th>
+          <th scope="col">Book Author</th>
+          <th scope="col">Borrowed By</th>
+          <th scope="col">Borrow Date</th>
+          <th scope="col">Due Date</th>
+          <th scope="col">Status</th>
+            {% if current_user.role == 'user' %}
+          <th scope="col">Return</th>
+            {% endif %}
+            {% if current_user.role == 'admin' %}
+          <th scope="col">Submit Return</th>
+            {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for borrow, user, book in data %}
+        <tr class="{{ 'table-danger' if borrow.status == 'overdue' else 'Continue' }}">
+<!--          <th scope="row"></th>-->
+          <td><img width="30%" src="{{ book.cover_url }}" alt="Book img"></td>
+          <td>{{ book.title }}</td>
+          <td>{{ book.author_name }}</td>
+          <td>{{ user.full_name }}</td>
+          <td>{{ borrow.borrow_date }}</td>
+          <td>{{ borrow.due_date }}</td>
+          <td>{{ borrow.status }}</td>
+            {% if current_user.role == 'user' %}
+          <td><a class="btn btn-outline-success btn-sm {{ 'disabled' if borrow.status == 'pending return' else 'Continue' }}" href="{{ url_for('return_book', book_id=borrow.book_id) }}">Return</a></td>
+            {% endif %}
+            {% if current_user.role == 'admin' %}
+              {% if borrow.status == "pending return" %}
+              <td><a class="btn btn-outline-success btn-sm" href="{{ url_for('submit_return', book_id=borrow.book_id, user_id=borrow.user_id) }}">Submit</a></td>
+                {% else %}
+              <td><a class="btn btn-outline-success btn-sm disabled" href="{{ url_for('submit_return', book_id=borrow.book_id, user_id=borrow.user_id) }}">Submit</a></td>
+              {% endif %}
+            {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+        <a class="btn btn-outline-primary col-4" href="{{ url_for('show_books') }}">Back To Books</a><br>
+    </div>
+
+    {% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Add Book{% endblock %}
+
+{% block content %}
+<div class="card-container">
+    {% for book in books %}
+        <figure>
+            <img src="{{ book.cover_url }}" alt="Card Image">
+            <figcaption>
+                <h3>{{ book.title }}</h3>
+                <h6>By {{ book.author_name }}</h6>
+<!--                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum, quam?</p>-->
+                <a class="btn btn-outline-success btn-sm" href="{{ url_for('book_preview', id=book.id) }}">Read More</a>
+            </figcaption>
+        </figure>
+    {% endfor %}
+</div>
+{% endblock %}

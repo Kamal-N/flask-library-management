@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Book Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Left Side: Book Cover & Actions -->
+        <div class="col-md-3 text-center">
+            <img src="{{ book.cover_url }}" alt="Book Cover" class="img-fluid w-75 rounded shadow-sm">
+
+            <button class="btn btn-outline-dark border-light-subtle w-75 col-12 my-2 disabled">
+                📖 Copies Left: {{ book.copies_available }}
+            </button>
+            {% if book.copies_available > 0 and current_user.role == 'user'  %}
+            <a href="{{ url_for('borrow_book', book_id=book.id) }}" class="btn btn-outline-primary col-12 mb-2 w-75">📚 Borrow</a>
+            {% endif %}
+            {% if book.copies_available < 1 %}
+            <a href="{{ url_for('borrow_book', book_id=book.id) }}" class="btn btn-outline-primary col-12 mb-2 w-75 disabled">🚫 No Copy Left</a>
+            {% endif %}
+
+            {% if current_user.role == 'admin' %}
+                <a href="{{ url_for('edit_book', book_id=book.id) }}" class="btn btn-outline-success w-75 col-12 mb-2">✏️ Edit Book</a>
+                <a href="{{ url_for('delete_book', book_id=book.id) }}" class="btn w-75 btn-outline-danger col-12">🗑️ Delete Book</a>
+            {% endif %}
+        </div>
+
+        <!-- Right Side: Book Details -->
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h2 class="fw-bold">{{ book.title }}</h2>
+                    <h5 class="text-muted">By {{ book.author_name }}</h5>
+                </div>
+                <!-- Favorite Button (Toggle Instantly, Functionality to be Added Later) -->
+<!--                <button class="btn btn-outline-danger border rounded-circle" id="favorite-btn">❤️</button>-->
+            </div>
+
+            <p class="mt-3">{{ book.description }}</p>
+
+            <!-- Two-Column Book Details -->
+            <div class="row">
+                <div class="col-6">
+                    <p><strong>📅 Publication Year:</strong> {{ book.published_date }}</p>
+                    <p><strong>🏢 Publisher:</strong> {{ book.publisher }}</p>
+                    <p><strong>🔢 Total Times Borrowed:</strong> {{ book.total_borrowed }}</p>
+                </div>
+                <div class="col-6">
+                    <p class="text-uppercase"><strong>🗣 Language:</strong> {{ book.language }}</p>
+                    <p><strong>📄 Page Count:</strong> {{ book.page_count }}</p>
+                    <p><strong>🔍 ISBN:</strong> {{ book.isbn }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("favorite-btn").addEventListener("click", function() {
+        this.classList.toggle("btn-danger");
+    });
+</script>
+{% endblock %}

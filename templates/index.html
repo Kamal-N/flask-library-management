@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Wellcome to Bookish!{% endblock %}
+{% block styles %}
+<style>
+        .home-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        .home-container h1 {
+            padding: 20px 0px;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .home-container img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="home-container">
+        <h1>Welcome to Bookish Library!</h1>
+        <div>
+            <img src="{{ url_for('static', filename='img/cover-3.png') }}" alt="Bookish Library Cover">
+        </div>
+        <div>
+            <a class="btn col-5 btn-outline-success" href="{{ url_for('register') }}">Register</a>
+            <a class="btn col-5 btn-outline-success" href="{{ url_for('login') }}">Login</a>
+        </div>
+    </div>
+{% endblock %}

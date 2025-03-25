@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Add Book{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="../static/results.css">
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+{% endblock %}
+
+{% block content %}
+<div class="card-container">
+	{% for book in books %}
+	<div class="book-card">
+
+	<div class="product-image">
+		<img src="{{ book.img_url }}" alt="">
+	</div>
+
+	<div class="product-details">
+		<h1>{{ book['title'] }}</h1>
+		<h6>By {{ book['author_list'] }}</h6>
+		<p class="inline-items">Pages: {{ book['page_count'] }}</p><p class="inline-items">Language: {{ book['language'] }}</p>
+
+		<p class="information">{{ book['description'][:350] + '.....' }}</p>
+
+		<div class="control">
+<!--			<a class="btn btn-outline-primary btn-sm">Read More</a>-->
+			<a href="{{ url_for('import_book', kwargs=json.dumps({
+			'cover_url': book['img_url'].replace('/', '_$_'),
+			'title': book['title'],
+			'description': book['description'],
+			'authors': book['author_list'],
+			'page_count': book['page_count'],
+			'language': book['language'],
+			'publisher': book['publisher'],
+			'published_date': book['published_date'],
+			'isbn': book['isbn'],
+			}) ) }}" class="btn btn-outline-success btn-sm">Add Library</a>
+		</div>
+	</div>
+</div>
+    {% endfor %}
+
+
+
+
+
+
+
+
+
+</div>
+{% endblock %}

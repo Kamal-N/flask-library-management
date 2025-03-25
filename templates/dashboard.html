@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <div class="container text-center mt-5 col-12">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">{{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+    <h1 class="text-center m-4">Users Dashboard</h1>
+    <table class="table table-hover ">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Full Name</th>
+          <th scope="col">Username</th>
+          <th scope="col">Email</th>
+          <th scope="col">Role</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <th scope="row">{{ user.id }}</th>
+          <td>{{ user.full_name }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td><a class="btn btn-danger btn-sm" href="{{ url_for('delete_user', id=user.id) }}">Delete</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+        <a class="btn btn-outline-primary col-4" href="{{ url_for('home') }}">Back To Home</a><br>
+    </div>
+
+    {% endblock %}
