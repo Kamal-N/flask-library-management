@@ -1,4 +1,4 @@
-# Library Management System
+# Flask Library Management System
 
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue) ![Flask](https://img.shields.io/badge/flask-2.0%2B-green) ![SQLite](https://img.shields.io/badge/sqlite-3-lightgrey)
 
