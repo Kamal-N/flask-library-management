@@ -58,7 +58,7 @@ python main.py
 ### 5. Open a browser and navigate to:
 
 ```
-http://127.0.0.1:5000/
+http://127.0.0.1:3000/
 ```
 
 ## Usage
